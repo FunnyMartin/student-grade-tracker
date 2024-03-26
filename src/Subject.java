@@ -5,10 +5,9 @@ public class Subject {
     private ArrayList<Grade> gradeArray;
     private float mark;
 
-    public Subject(String name, ArrayList<Grade> gradeArray, float mark) {
+    public Subject(String name, ArrayList<Grade> gradeArray) {
         this.name = name;
         this.gradeArray = gradeArray;
-        this.mark = mark;
     }
 
     //region SET&GET
