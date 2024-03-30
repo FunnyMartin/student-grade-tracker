@@ -34,6 +34,7 @@ public class Manager {
 
     public void help(){
         System.out.println("subject add x");
+        System.out.println("subject remove x");
         System.out.println("list");
     }
 
@@ -50,5 +51,16 @@ public class Manager {
         return "Manager{" +
                 "subjectArray=" + subjectArray +
                 '}';
+    }
+
+    public void removeSubject(String subjectName) {
+        subjectName = subjectName.toLowerCase();
+        for (Subject var : subjectArray) {
+            if(subjectName.equals(var.getName())){
+                subjectArray.remove(var);
+                System.out.println(var.getName() + " was removed");
+                break;
+            }
+        }
     }
 }
