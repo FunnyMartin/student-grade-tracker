@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -8,8 +9,7 @@ public class Main {
         CommandParser parser = new CommandParser(manager);
         Scanner scan = new Scanner(System.in);
         String input;
-
-        System.out.println("use help for commands");
+        SwingUtilities.invokeLater(PopupConsole::new);
 
         while(true){
             input = scan.nextLine();
