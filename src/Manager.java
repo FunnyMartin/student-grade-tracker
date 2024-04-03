@@ -33,15 +33,17 @@ public class Manager {
     }
 
     public void help(){
-        System.out.println("subject add x");
-        System.out.println("subject remove x");
         System.out.println("list");
+        System.out.println("subject add (name)");
+        System.out.println("subject remove (name)");
+        System.out.println("subject (name) mark add (grade) (weight)");
+        System.out.println("subject (name) mark remove (index)");
     }
 
     public void list(){
         String output = "";
         for (Subject var : subjectArray) {
-            output = output + var.getName() + "\n";
+            output = output + var.getName() + var.getGradeArray().toString() + "\n";
         }
         System.out.println(output);
     }
@@ -62,5 +64,36 @@ public class Manager {
                 break;
             }
         }
+    }
+
+    public void addMark(String subjectName, int grade, int weight){
+        if(grade > 0 && weight > 0){
+            subjectName = subjectName.toLowerCase();
+            for (int i = 0; i < subjectArray.size(); i++){
+                if(subjectName.equals(subjectArray.get(i).getName())){
+                    subjectArray.get(i).getGradeArray().add(new Grade(grade, weight));
+                    System.out.println("Mark was added");
+                    break;
+                }
+            }
+        } else {
+            System.out.println("Grade and weight has to be a positive number");
+        }
+    }
+
+    public void removeMark(String subjectName, int index){
+        subjectName = subjectName.toLowerCase();
+        for (int i = 0; i < subjectArray.size(); i++){
+            if(subjectName.equals(subjectArray.get(i).getName())){
+                if(index < subjectArray.get(i).getGradeArray().size() && index >= 0){
+                    subjectArray.get(i).getGradeArray().remove(index);
+                    System.out.println("Mark was removed");
+                } else {
+                    System.out.println("Index is out of bounds");
+                }
+                return;
+            }
+        }
+        System.out.println("Subject not found");
     }
 }

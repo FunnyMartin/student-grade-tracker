@@ -11,10 +11,14 @@ public class CommandParser {
 
         switch(commandName){
             case "subject":
-                if(parts.length == 3 && parts[1].equals("add")){
+                if(parts.length == 3 && parts[1].equalsIgnoreCase("add")){
                     return new AddSubjectCommand(manager, parts[2]);
-                } else if (parts.length == 3 && parts[1].equals("remove")) {
+                } else if (parts.length == 3 && parts[1].equalsIgnoreCase("remove")) {
                     return new RemoveSubjectCommand(manager, parts[2]);
+                } else if (parts.length == 6 && parts[2].equalsIgnoreCase("mark") && parts[3].equalsIgnoreCase("add")) {
+                    return new AddMarkCommand(manager, parts[1], Integer.valueOf(parts[4]), Integer.valueOf(parts[5]));
+                } else if (parts.length == 5 && parts[2].equalsIgnoreCase("mark") && parts[3].equalsIgnoreCase("remove")){
+                    return new RemoveMarkCommand(manager, parts[1], Integer.valueOf(parts[4]));
                 }
                 break;
 

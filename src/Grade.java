@@ -26,9 +26,6 @@ public class Grade {
 
     @Override
     public String toString() {
-        return "Grade{" +
-                "grade=" + grade +
-                ", weight=" + weight +
-                '}';
+        return "|" + grade + "-" + weight + "|";
     }
 }

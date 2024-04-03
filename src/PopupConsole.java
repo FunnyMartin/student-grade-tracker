@@ -77,7 +77,7 @@ public class PopupConsole {
         if (command != null) {
             command.execute();
         } else {
-            consoleTextArea.append("Invalid command.\n");
+            consoleTextArea.append("Invalid command\n");
         }
     }
 }
