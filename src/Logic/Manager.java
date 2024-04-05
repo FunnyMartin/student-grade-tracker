@@ -1,3 +1,5 @@
+package Logic;
+
 import java.util.ArrayList;
 
 public class Manager {
@@ -50,7 +52,7 @@ public class Manager {
 
     @Override
     public String toString() {
-        return "Manager{" +
+        return "Logic.Manager{" +
                 "subjectArray=" + subjectArray +
                 '}';
     }
@@ -77,7 +79,7 @@ public class Manager {
                 }
             }
         } else {
-            System.out.println("Grade and weight has to be a positive number");
+            System.out.println("Logic.Grade and weight has to be a positive number");
         }
     }
 
@@ -94,6 +96,6 @@ public class Manager {
                 return;
             }
         }
-        System.out.println("Subject not found");
+        System.out.println("Logic.Subject not found");
     }
 }

@@ -1,4 +1,8 @@
-public class AddMarkCommand implements Command{
+package Commands;
+import Logic.*;
+
+
+public class AddMarkCommand implements Command {
     private Manager manager;
     private String subjectName;
     private int grade, weight;

@@ -1,3 +1,5 @@
+package Commands;
+import Logic.*;
 public class RemoveSubjectCommand implements Command{
 
     private Manager manager;

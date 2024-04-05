@@ -1,3 +1,6 @@
+package Commands;
+import Logic.*;
+
 public class HelpCommand implements Command{
     private Manager manager;
 

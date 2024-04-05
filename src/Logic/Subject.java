@@ -1,3 +1,5 @@
+package Logic;
+
 import java.util.ArrayList;
 
 public class Subject {
@@ -39,7 +41,7 @@ public class Subject {
 
     @Override
     public String toString() {
-        return "Subject{" +
+        return "Logic.Subject{" +
                 "name='" + name + '\'' +
                 ", gradeArray=" + gradeArray +
                 ", mark=" + mark +

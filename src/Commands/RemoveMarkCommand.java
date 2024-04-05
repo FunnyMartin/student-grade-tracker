@@ -1,3 +1,6 @@
+package Commands;
+import Logic.*;
+
 public class RemoveMarkCommand implements Command{
     private Manager manager;
     private String subjectName;

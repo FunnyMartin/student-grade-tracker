@@ -1,3 +1,5 @@
+package Logic;
+
 public class Grade {
     private int grade, weight;
 
@@ -26,6 +28,6 @@ public class Grade {
 
     @Override
     public String toString() {
-        return "|" + grade + "-" + weight + "|";
+        return "|g=" + grade + ";w=" + weight + "|";
     }
 }

@@ -1,3 +1,6 @@
+package Commands;
+import Logic.*;
+
 public class CommandParser {
     private Manager manager;
 

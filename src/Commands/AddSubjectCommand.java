@@ -1,3 +1,5 @@
+package Commands;
+import Logic.*;
 public class AddSubjectCommand implements Command{
 
     private Manager manager;

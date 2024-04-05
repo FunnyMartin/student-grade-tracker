@@ -1,3 +1,6 @@
+package Logic;
+
+import Commands.*;
 import javax.swing.*;
 import java.awt.*;
 import java.io.PrintStream;
@@ -42,6 +45,7 @@ public class PopupConsole {
         scrollPane.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 
         inputField = new JTextField();
+        inputField.setCaretColor(Color.WHITE);
         inputField.setFont(new Font("Consolas", Font.PLAIN, 14));
         inputField.setForeground(textColor); // Set text color
         inputField.setBackground(backgroundColor); // Set background color

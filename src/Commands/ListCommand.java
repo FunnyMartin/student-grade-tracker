@@ -1,3 +1,6 @@
+package Commands;
+import Logic.*;
+
 public class ListCommand implements Command {
     private Manager manager;
 
