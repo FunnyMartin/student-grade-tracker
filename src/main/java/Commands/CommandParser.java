@@ -22,6 +22,8 @@ public class CommandParser {
                     return new AddMarkCommand(manager, parts[1], Integer.valueOf(parts[4]), Integer.valueOf(parts[5]));
                 } else if (parts.length == 5 && parts[2].equalsIgnoreCase("mark") && parts[3].equalsIgnoreCase("remove")){
                     return new RemoveMarkCommand(manager, parts[1], Integer.valueOf(parts[4]));
+                } else if (parts.length == 3 && parts[2].equalsIgnoreCase("graph")){
+                   // return new GraphCommand();
                 }
                 break;
 
@@ -29,7 +31,9 @@ public class CommandParser {
                 return new HelpCommand(manager);
             case "list":
                 return new ListCommand(manager);
-            case "mark":
+            case "settings":
+            case "save":
+            case "load":
         }
 
         return null; // Or throw an exception for unknown commands
