@@ -2,6 +2,20 @@ package Logic;
 
 import java.util.ArrayList;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+
+import javax.swing.*;
+import java.awt.*;
+
+
 public class Manager {
     private ArrayList<Subject> subjectArray;
 
@@ -97,5 +111,63 @@ public class Manager {
             }
         }
         System.out.println("Logic.Subject not found");
+    }
+
+    public void graph(String subjectName){
+        ArrayList<Grade> grades = null;
+        for (Subject subject : subjectArray) {
+            if (subjectName.equals(subject.getName())) {
+                grades = subject.getGradeArray();
+            }
+        }
+
+        XYSeries series = new XYSeries("Grades");
+
+        double sum = 0.0;
+        double totalWeight = 0.0;
+        double minGrade = Double.MAX_VALUE;
+        for (int i = 0; i < grades.size(); i++) {
+            Grade grade = grades.get(i);
+            sum += grade.getGrade() * grade.getWeight();
+            totalWeight += grade.getWeight();
+            series.add(i + 1, sum / totalWeight);
+            minGrade = Math.min(minGrade, grade.getGrade());
+        }
+
+        XYSeriesCollection dataset = new XYSeriesCollection();
+        dataset.addSeries(series);
+
+        JFreeChart chart = ChartFactory.createXYLineChart(
+                "Grade History",
+                "Exam",
+                "Average Grade",
+                dataset,
+                PlotOrientation.VERTICAL,
+                true,
+                true,
+                false
+        );
+
+        XYPlot plot = chart.getXYPlot();
+        NumberAxis domain = (NumberAxis) plot.getDomainAxis();
+        domain.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+
+        NumberAxis range = (NumberAxis) plot.getRangeAxis();
+        range.setRange(minGrade, range.getUpperBound());
+
+        plot.setBackgroundPaint(Color.WHITE);
+        plot.setDomainGridlinePaint(Color.LIGHT_GRAY);
+        plot.setRangeGridlinePaint(Color.LIGHT_GRAY);
+        plot.setOutlineVisible(false);
+        plot.getRenderer().setSeriesPaint(0, new Color(0, 114, 187));
+
+        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setPreferredSize(new Dimension(800, 600));
+        chartPanel.setMouseZoomable(false);
+
+        JFrame frame = new JFrame();
+        frame.getContentPane().add(chartPanel);
+        frame.pack();
+        frame.setVisible(true);
     }
 }

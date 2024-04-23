@@ -23,7 +23,7 @@ public class CommandParser {
                 } else if (parts.length == 5 && parts[2].equalsIgnoreCase("mark") && parts[3].equalsIgnoreCase("remove")){
                     return new RemoveMarkCommand(manager, parts[1], Integer.valueOf(parts[4]));
                 } else if (parts.length == 3 && parts[2].equalsIgnoreCase("graph")){
-                   // return new GraphCommand();
+                    return new GraphCommand(manager, parts[1]);
                 }
                 break;
 
