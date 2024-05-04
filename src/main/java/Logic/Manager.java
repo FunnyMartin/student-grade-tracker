@@ -1,5 +1,6 @@
 package Logic;
 
+import java.io.*;
 import java.util.ArrayList;
 
 import org.jfree.chart.ChartFactory;
@@ -8,12 +9,12 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 
 
 public class Manager {
@@ -50,10 +51,16 @@ public class Manager {
 
     public void help(){
         System.out.println("list");
+        System.out.println("list files");
         System.out.println("subject add (name)");
         System.out.println("subject remove (name)");
         System.out.println("subject (name) mark add (grade) (weight)");
         System.out.println("subject (name) mark remove (index)");
+        System.out.println();
+        System.out.println("create (file name)");
+        System.out.println("delete (file name)");
+        System.out.println("save (file name)");
+        System.out.println("load (file name)");
     }
 
     public void list(){
@@ -121,53 +128,130 @@ public class Manager {
             }
         }
 
-        XYSeries series = new XYSeries("Grades");
+        if(grades != null && !grades.isEmpty()){
+            XYSeries series = new XYSeries("Grades");
 
-        double sum = 0.0;
-        double totalWeight = 0.0;
-        double minGrade = Double.MAX_VALUE;
-        for (int i = 0; i < grades.size(); i++) {
-            Grade grade = grades.get(i);
-            sum += grade.getGrade() * grade.getWeight();
-            totalWeight += grade.getWeight();
-            series.add(i + 1, sum / totalWeight);
-            minGrade = Math.min(minGrade, grade.getGrade());
+            double sum = 0.0;
+            double totalWeight = 0.0;
+            double minGrade = Double.MAX_VALUE;
+            for (int i = 0; i < grades.size(); i++) {
+                Grade grade = grades.get(i);
+                sum += grade.getGrade() * grade.getWeight();
+                totalWeight += grade.getWeight();
+                series.add(i + 1, sum / totalWeight);
+                minGrade = Math.min(minGrade, grade.getGrade());
+            }
+
+            XYSeriesCollection dataset = new XYSeriesCollection();
+            dataset.addSeries(series);
+
+            JFreeChart chart = ChartFactory.createXYLineChart(
+                    "Grade History",
+                    "Exam",
+                    "Average Grade",
+                    dataset,
+                    PlotOrientation.VERTICAL,
+                    true,
+                    true,
+                    false
+            );
+
+            XYPlot plot = chart.getXYPlot();
+            NumberAxis domain = (NumberAxis) plot.getDomainAxis();
+            domain.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+
+            NumberAxis range = (NumberAxis) plot.getRangeAxis();
+            range.setRange(minGrade, range.getUpperBound());
+
+            plot.setBackgroundPaint(Color.WHITE);
+            plot.setDomainGridlinePaint(Color.LIGHT_GRAY);
+            plot.setRangeGridlinePaint(Color.LIGHT_GRAY);
+            plot.setOutlineVisible(false);
+            plot.getRenderer().setSeriesPaint(0, new Color(0, 114, 187));
+
+            ChartPanel chartPanel = new ChartPanel(chart);
+            chartPanel.setPreferredSize(new Dimension(800, 600));
+            chartPanel.setMouseZoomable(false);
+
+            JFrame frame = new JFrame();
+            frame.getContentPane().add(chartPanel);
+            frame.pack();
+            frame.setVisible(true);
+        } else{
+            System.out.println("There is nothing to show in graph");
         }
+    }
 
-        XYSeriesCollection dataset = new XYSeriesCollection();
-        dataset.addSeries(series);
+    public void save(String fileName) throws IOException {
+        File file = new File("src/main/java/SaveFiles/" + fileName + ".txt");
+        if(file.exists() && !subjectArray.isEmpty()){
+            BufferedWriter bw = new BufferedWriter( new FileWriter(file));
+            for (Subject subject : subjectArray) {
+                String line = "";
+                line += subject.getName() + ",";
+                for (Grade grade : subject.getGradeArray()) {
+                    line += grade.getGrade() + "," + grade.getWeight() + ",";
+                }
+                bw.write(line);
+                bw.newLine();
+            }
+            System.out.println("File saved successfully");
+            bw.flush();
+        } else{
+            System.out.println("No such file exists or there is nothing to save");
+        }
+    }
 
-        JFreeChart chart = ChartFactory.createXYLineChart(
-                "Grade History",
-                "Exam",
-                "Average Grade",
-                dataset,
-                PlotOrientation.VERTICAL,
-                true,
-                true,
-                false
-        );
+    public void load(String fileName) throws IOException {
+        File file = new File("src/main/java/SaveFiles/" + fileName + ".txt");
+        if(file.exists() && file.length() > 0){
+            subjectArray = new ArrayList<>();
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+            while((line = br.readLine()) != null){
+                String[] data = line.split(",");
+                String subjectName = data[0];
+                ArrayList<Grade> grades = new ArrayList<>();
+                for (int i = 1; i < data.length; i++) {
+                    grades.add(new Grade(Integer.parseInt(data[i]), Integer.parseInt(data[i + 1])));
+                    i++;
+                }
+                subjectArray.add(new Subject(subjectName, grades));
+            }
+            System.out.println("File loaded successfully");
+        } else{
+            System.out.println("No such file exists or there is nothing to load");
+        }
+    }
 
-        XYPlot plot = chart.getXYPlot();
-        NumberAxis domain = (NumberAxis) plot.getDomainAxis();
-        domain.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+    public void createFile(String fileName) throws IOException {
+        String filePath = "src/main/java/SaveFiles/" + fileName + ".txt";
+        File file = new File(filePath);
+        if(file.createNewFile()){
+            System.out.println("File " + fileName + " created");
+        } else{
+            System.out.println("File " + fileName + " already exists or could not be created");
+        }
+    }
 
-        NumberAxis range = (NumberAxis) plot.getRangeAxis();
-        range.setRange(minGrade, range.getUpperBound());
+    public void deleteFile(String fileName){
+        String filePath = "src/main/java/SaveFiles/" + fileName + ".txt";
+        File file = new File(filePath);
+        if(file.delete()){
+            System.out.println("File " + fileName + " deleted");
+        } else{
+            System.out.println("File " + fileName + " could not be deleted");
+        }
+    }
 
-        plot.setBackgroundPaint(Color.WHITE);
-        plot.setDomainGridlinePaint(Color.LIGHT_GRAY);
-        plot.setRangeGridlinePaint(Color.LIGHT_GRAY);
-        plot.setOutlineVisible(false);
-        plot.getRenderer().setSeriesPaint(0, new Color(0, 114, 187));
-
-        ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setPreferredSize(new Dimension(800, 600));
-        chartPanel.setMouseZoomable(false);
-
-        JFrame frame = new JFrame();
-        frame.getContentPane().add(chartPanel);
-        frame.pack();
-        frame.setVisible(true);
+    public void listFiles(){
+        File directory = new File("src/main/java/SaveFiles");
+        File[] files = directory.listFiles();
+        if(files != null){
+            System.out.println("Listing " + files.length + " files");
+            System.out.println(Arrays.toString(files));
+        }else{
+            System.out.println("No files found");
+        }
     }
 }

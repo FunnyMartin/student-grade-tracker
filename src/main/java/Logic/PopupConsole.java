@@ -24,12 +24,12 @@ public class PopupConsole {
         Color textColor = new Color(0, 255, 0); // Green color
 
         JFrame frame = new JFrame("Grade Tracker");
-        frame.setSize(600, 400);
+        frame.setSize(800, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
 
         // Set icon for the JFrame
-        ImageIcon icon = new ImageIcon("src/Other/logo.png");
+        ImageIcon icon = new ImageIcon("src/main/java/Other/logo.png");
         frame.setIconImage(icon.getImage());
 
         JPanel contentPane = new JPanel(new BorderLayout());

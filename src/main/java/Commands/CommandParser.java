@@ -30,10 +30,31 @@ public class CommandParser {
             case "help":
                 return new HelpCommand(manager);
             case "list":
-                return new ListCommand(manager);
+                if(parts.length == 1){
+                    return new ListCommand(manager);
+                } else if (parts.length == 2 && parts[1].equalsIgnoreCase("files")) {
+                    return new ListFilesCommand(manager);
+                }
+                break;
+
             case "settings":
+
             case "save":
+                if(parts.length == 2){
+                    return new SaveCommand(manager, parts[1]);
+                }
             case "load":
+                if(parts.length == 2){
+                    return new LoadCommand(manager, parts[1]);
+                }
+            case "create":
+                if(parts.length == 2){
+                    return new CreateFileCommand(manager, parts[1]);
+                }
+            case "delete":
+                if(parts.length == 2){
+                    return new DeleteFileCommand(manager, parts[1]);
+                }
         }
 
         return null; // Or throw an exception for unknown commands
