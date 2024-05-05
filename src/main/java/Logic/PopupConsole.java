@@ -1,19 +1,22 @@
 package Logic;
 
 import Commands.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
 public class PopupConsole {
-    private JTextArea consoleTextArea;
-    private JTextField inputField;
-    private CommandParser parser;
+    private final JTextArea consoleTextArea;
+    private final JTextField inputField;
+    private final CommandParser parser;
 
+    /**
+     * Creates the popup window, sets icon and redirects text output stream to the window
+     */
     public PopupConsole() {
         try {
-            // Set custom look and feel
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -76,6 +79,11 @@ public class PopupConsole {
         parser = new CommandParser(manager);
     }
 
+    /**
+     * Processes users input into a command and executes it
+     *
+     * @param input is the users input
+     */
     private void processInput(String input) {
         Command command = parser.parse(input);
         if (command != null) {

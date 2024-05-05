@@ -2,11 +2,11 @@ package Commands;
 
 import Logic.Manager;
 
-public class DeleteFileCommand implements Command{
-    private Manager manager;
-    private String fileName;
+public class DeleteFileCommand implements Command {
+    private final Manager manager;
+    private final String fileName;
 
-    public DeleteFileCommand(Manager manager, String fileName){
+    public DeleteFileCommand(Manager manager, String fileName) {
         this.manager = manager;
         this.fileName = fileName;
     }

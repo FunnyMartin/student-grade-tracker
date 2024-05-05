@@ -5,10 +5,10 @@ import Logic.Manager;
 import java.io.IOException;
 
 public class LoadCommand implements Command {
-    private Manager manager;
-    private String fileName;
+    private final Manager manager;
+    private final String fileName;
 
-    public LoadCommand(Manager manager, String fileName){
+    public LoadCommand(Manager manager, String fileName) {
         this.manager = manager;
         this.fileName = fileName;
     }

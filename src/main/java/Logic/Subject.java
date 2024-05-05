@@ -3,9 +3,8 @@ package Logic;
 import java.util.ArrayList;
 
 public class Subject {
-    private String name;
-    private ArrayList<Grade> gradeArray;
-    private float mark;
+    private final String name;
+    private final ArrayList<Grade> gradeArray;
 
     public Subject(String name, ArrayList<Grade> gradeArray) {
         this.name = name;
@@ -17,26 +16,9 @@ public class Subject {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public ArrayList<Grade> getGradeArray() {
         return gradeArray;
     }
-
-    public void setGradeArray(ArrayList<Grade> gradeArray) {
-        this.gradeArray = gradeArray;
-    }
-
-    public float getMark() {
-        return mark;
-    }
-
-    public void setMark(float mark) {
-        this.mark = mark;
-    }
-
     //endregion
 
     @Override
@@ -44,17 +26,7 @@ public class Subject {
         return "Logic.Subject{" +
                 "name='" + name + '\'' +
                 ", gradeArray=" + gradeArray +
-                ", mark=" + mark +
                 '}';
-    }
-
-    private void calculateMark(){
-        int value = 0, weight = 0;
-        for (int i = 0; i < gradeArray.size(); i++) {
-            value += gradeArray.get(i).getGrade() * gradeArray.get(i).getWeight();
-            weight += gradeArray.get(i).getWeight();
-        }
-        mark = value/weight;
     }
 
 }

@@ -4,11 +4,11 @@ import Logic.Manager;
 
 import java.io.IOException;
 
-public class CreateFileCommand implements Command{
-    private Manager manager;
-    private String fileName;
+public class CreateFileCommand implements Command {
+    private final Manager manager;
+    private final String fileName;
 
-    public CreateFileCommand(Manager manager, String fileName){
+    public CreateFileCommand(Manager manager, String fileName) {
         this.manager = manager;
         this.fileName = fileName;
     }

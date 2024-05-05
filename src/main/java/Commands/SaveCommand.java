@@ -5,10 +5,10 @@ import Logic.Manager;
 import java.io.IOException;
 
 public class SaveCommand implements Command {
-    private Manager manager;
-    private String fileName;
+    private final Manager manager;
+    private final String fileName;
 
-    public SaveCommand(Manager manager, String fileName){
+    public SaveCommand(Manager manager, String fileName) {
         this.manager = manager;
         this.fileName = fileName;
     }

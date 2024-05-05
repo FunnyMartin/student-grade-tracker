@@ -3,9 +3,9 @@ package Commands;
 import Logic.Manager;
 
 public class ListFilesCommand implements Command {
-    private Manager manager;
+    private final Manager manager;
 
-    public ListFilesCommand(Manager manager){
+    public ListFilesCommand(Manager manager) {
         this.manager = manager;
     }
 

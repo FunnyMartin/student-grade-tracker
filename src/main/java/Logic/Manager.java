@@ -16,7 +16,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
 
-
 public class Manager {
     private ArrayList<Subject> subjectArray;
 
@@ -24,92 +23,122 @@ public class Manager {
         this.subjectArray = subjectArray;
     }
 
-    public ArrayList<Subject> getSubjectArray() {
-        return subjectArray;
-    }
-
-    public void setSubjectArray(ArrayList<Subject> subjectArray) {
-        this.subjectArray = subjectArray;
-    }
-
-    public void addSubject(String subject){
-        subject = subject.toLowerCase();
-        boolean isPresent = false;
-        for (Subject var: subjectArray) {
-            if(subject.equals(var.getName())){
-                isPresent = true;
-            }
-        }
-
-        if(!isPresent && subject.matches("^[a-zA-Z]+$")){
-            subjectArray.add(new Subject(subject, new ArrayList<>()));
-            System.out.println(subject + " was added");
-        } else{
-            System.out.println(subject + " is already present or contains forbidden characters");
-        }
-    }
-
-    public void help(){
-        System.out.println("list");
-        System.out.println("list files");
-        System.out.println("subject add (name)");
-        System.out.println("subject remove (name)");
-        System.out.println("subject (name) mark add (grade) (weight)");
-        System.out.println("subject (name) mark remove (index)");
-        System.out.println();
-        System.out.println("create (file name)");
-        System.out.println("delete (file name)");
-        System.out.println("save (file name)");
-        System.out.println("load (file name)");
-    }
-
-    public void list(){
-        String output = "";
-        for (Subject var : subjectArray) {
-            output = output + var.getName() + var.getGradeArray().toString() + "\n";
-        }
-        System.out.println(output);
-    }
-
     @Override
     public String toString() {
-        return "Logic.Manager{" +
+        return "Manager{" +
                 "subjectArray=" + subjectArray +
                 '}';
     }
 
+    /**
+     * Adds subject into subjectArray if it isn't already present
+     *
+     * @param subjectName is users input for the subject name
+     */
+    public void addSubject(String subjectName) {
+        subjectName = subjectName.toLowerCase();
+        boolean isPresent = false;
+        for (Subject sub : subjectArray) {
+            if (subjectName.equals(sub.getName())) {
+                isPresent = true;
+                break;
+            }
+        }
+
+        if (!isPresent && subjectName.matches("^[a-zA-Z]+$")) {
+            subjectArray.add(new Subject(subjectName, new ArrayList<>()));
+            System.out.println(subjectName + " was added");
+        } else {
+            System.out.println(subjectName + " is already present or contains forbidden characters");
+        }
+    }
+
+    /**
+     * Lists all available commands
+     */
+    public void help() {
+        String[] commands = {
+                "list",
+                "list files",
+                "subject add (name)",
+                "subject remove (name)",
+                "subject (name) mark add (grade) (weight)",
+                "subject (name) mark remove (index)",
+                "subject (name) graph",
+                "",
+                "create (file name)",
+                "delete (file name)",
+                "save (file name)",
+                "load (file name)",
+                "quit"
+        };
+
+        for (String command : commands) {
+            System.out.println(command);
+        }
+    }
+
+    /**
+     * Lists all subjects in subjectArray with their grades
+     */
+    public void list() {
+        String output = "";
+        for (Subject sub : subjectArray) {
+            output = output + sub.getName() + sub.getGradeArray().toString() + "\n";
+        }
+        System.out.println(output);
+    }
+
+    /**
+     * Removes subject if it exists based on users input
+     *
+     * @param subjectName is users input
+     */
     public void removeSubject(String subjectName) {
         subjectName = subjectName.toLowerCase();
-        for (Subject var : subjectArray) {
-            if(subjectName.equals(var.getName())){
-                subjectArray.remove(var);
-                System.out.println(var.getName() + " was removed");
+        for (Subject sub : subjectArray) {
+            if (subjectName.equals(sub.getName())) {
+                subjectArray.remove(sub);
+                System.out.println(sub.getName() + " was removed");
                 break;
             }
         }
     }
 
-    public void addMark(String subjectName, int grade, int weight){
-        if(grade > 0 && weight > 0){
+    /**
+     * Adds a mark to a specific subject based on users input
+     *
+     * @param subjectName is the name of the subject
+     * @param grade       is the grade
+     * @param weight      is the weight
+     */
+    public void addMark(String subjectName, int grade, int weight) {
+        if (grade > 0 && weight > 0) {
             subjectName = subjectName.toLowerCase();
-            for (int i = 0; i < subjectArray.size(); i++){
-                if(subjectName.equals(subjectArray.get(i).getName())){
-                    subjectArray.get(i).getGradeArray().add(new Grade(grade, weight));
+            for (Subject sub : subjectArray) {
+                if (subjectName.equals(sub.getName())) {
+                    sub.getGradeArray().add(new Grade(grade, weight));
                     System.out.println("Mark was added");
                     break;
                 }
             }
         } else {
-            System.out.println("Logic.Grade and weight has to be a positive number");
+            System.out.println("Grade and weight has to be a positive number");
         }
     }
 
-    public void removeMark(String subjectName, int index){
+    /**
+     * Removes a mark from a specific subject based on users input
+     *
+     * @param subjectName is the name of the subject
+     * @param index       is the position of the grade in the grade array of the subject
+     */
+    public void removeMark(String subjectName, int index) {
         subjectName = subjectName.toLowerCase();
-        for (int i = 0; i < subjectArray.size(); i++){
-            if(subjectName.equals(subjectArray.get(i).getName())){
-                if(index < subjectArray.get(i).getGradeArray().size() && index >= 0){
-                    subjectArray.get(i).getGradeArray().remove(index);
+        for (Subject sub : subjectArray) {
+            if (subjectName.equals(sub.getName())) {
+                if (index < sub.getGradeArray().size() && index >= 0) {
+                    sub.getGradeArray().remove(index);
                     System.out.println("Mark was removed");
                 } else {
                     System.out.println("Index is out of bounds");
@@ -117,18 +146,23 @@ public class Manager {
                 return;
             }
         }
-        System.out.println("Logic.Subject not found");
+        System.out.println("Subject not found");
     }
 
-    public void graph(String subjectName){
+    /**
+     * Creates a graph using a library JFreeChart of specific subject's grades
+     *
+     * @param subjectName is the name of the subject
+     */
+    public void graph(String subjectName) {
         ArrayList<Grade> grades = null;
-        for (Subject subject : subjectArray) {
-            if (subjectName.equals(subject.getName())) {
-                grades = subject.getGradeArray();
+        for (Subject sub : subjectArray) {
+            if (subjectName.equals(sub.getName())) {
+                grades = sub.getGradeArray();
             }
         }
 
-        if(grades != null && !grades.isEmpty()){
+        if (grades != null && !grades.isEmpty()) {
             XYSeries series = new XYSeries("Grades");
 
             double sum = 0.0;
@@ -146,9 +180,9 @@ public class Manager {
             dataset.addSeries(series);
 
             JFreeChart chart = ChartFactory.createXYLineChart(
-                    "Grade History",
+                    "Grade Evolution",
                     "Exam",
-                    "Average Grade",
+                    "Grade Average",
                     dataset,
                     PlotOrientation.VERTICAL,
                     true,
@@ -177,19 +211,25 @@ public class Manager {
             frame.getContentPane().add(chartPanel);
             frame.pack();
             frame.setVisible(true);
-        } else{
-            System.out.println("There is nothing to show in graph");
+        } else {
+            System.out.println("There is nothing to show in a graph");
         }
     }
 
+    /**
+     * Saves current subjects and their grade arrays into a text file
+     *
+     * @param fileName is the name of the save file
+     * @throws IOException because it's writing into a file
+     */
     public void save(String fileName) throws IOException {
         File file = new File("src/main/java/SaveFiles/" + fileName + ".txt");
-        if(file.exists() && !subjectArray.isEmpty()){
-            BufferedWriter bw = new BufferedWriter( new FileWriter(file));
-            for (Subject subject : subjectArray) {
+        if (file.exists() && !subjectArray.isEmpty()) {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+            for (Subject sub : subjectArray) {
                 String line = "";
-                line += subject.getName() + ",";
-                for (Grade grade : subject.getGradeArray()) {
+                line += sub.getName() + ",";
+                for (Grade grade : sub.getGradeArray()) {
                     line += grade.getGrade() + "," + grade.getWeight() + ",";
                 }
                 bw.write(line);
@@ -197,18 +237,24 @@ public class Manager {
             }
             System.out.println("File saved successfully");
             bw.flush();
-        } else{
+        } else {
             System.out.println("No such file exists or there is nothing to save");
         }
     }
 
+    /**
+     * Loads subjects and their grades from a text file
+     *
+     * @param fileName is the name of the load file
+     * @throws IOException because it's reading from a file
+     */
     public void load(String fileName) throws IOException {
         File file = new File("src/main/java/SaveFiles/" + fileName + ".txt");
-        if(file.exists() && file.length() > 0){
+        if (file.exists() && file.length() > 0) {
             subjectArray = new ArrayList<>();
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line;
-            while((line = br.readLine()) != null){
+            while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
                 String subjectName = data[0];
                 ArrayList<Grade> grades = new ArrayList<>();
@@ -219,39 +265,60 @@ public class Manager {
                 subjectArray.add(new Subject(subjectName, grades));
             }
             System.out.println("File loaded successfully");
-        } else{
+        } else {
             System.out.println("No such file exists or there is nothing to load");
         }
     }
 
+    /**
+     * Creates a text file in SaveFiles package if it doesn't already exist
+     *
+     * @param fileName is the name of the file
+     * @throws IOException because it's creating a new file
+     */
     public void createFile(String fileName) throws IOException {
         String filePath = "src/main/java/SaveFiles/" + fileName + ".txt";
         File file = new File(filePath);
-        if(file.createNewFile()){
+        if (file.createNewFile()) {
             System.out.println("File " + fileName + " created");
-        } else{
+        } else {
             System.out.println("File " + fileName + " already exists or could not be created");
         }
     }
 
-    public void deleteFile(String fileName){
+    /**
+     * Deletes a file if it is possible
+     *
+     * @param fileName is the name of the file
+     */
+    public void deleteFile(String fileName) {
         String filePath = "src/main/java/SaveFiles/" + fileName + ".txt";
         File file = new File(filePath);
-        if(file.delete()){
+        if (file.delete()) {
             System.out.println("File " + fileName + " deleted");
-        } else{
+        } else {
             System.out.println("File " + fileName + " could not be deleted");
         }
     }
 
-    public void listFiles(){
+    /**
+     * Lists all files in the package SaveFiles
+     */
+    public void listFiles() {
         File directory = new File("src/main/java/SaveFiles");
         File[] files = directory.listFiles();
-        if(files != null){
+        if (files != null) {
             System.out.println("Listing " + files.length + " files");
             System.out.println(Arrays.toString(files));
-        }else{
+        } else {
             System.out.println("No files found");
         }
+    }
+
+    /**
+     * Quits the application
+     */
+    public void quit() {
+        System.exit(0);
     }
 }

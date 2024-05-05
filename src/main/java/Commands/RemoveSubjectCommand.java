@@ -1,11 +1,13 @@
 package Commands;
+
 import Logic.*;
-public class RemoveSubjectCommand implements Command{
 
-    private Manager manager;
-    private String subjectName;
+public class RemoveSubjectCommand implements Command {
 
-    public RemoveSubjectCommand(Manager manager, String subjectName){
+    private final Manager manager;
+    private final String subjectName;
+
+    public RemoveSubjectCommand(Manager manager, String subjectName) {
         this.manager = manager;
         this.subjectName = subjectName;
     }

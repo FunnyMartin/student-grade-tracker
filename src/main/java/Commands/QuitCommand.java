@@ -1,17 +1,16 @@
 package Commands;
 
-import Logic.*;
+import Logic.Manager;
 
-public class ListCommand implements Command {
+public class QuitCommand implements Command {
     private final Manager manager;
 
-    public ListCommand(Manager manager) {
+    public QuitCommand(Manager manager) {
         this.manager = manager;
     }
 
-
     @Override
     public void execute() {
-        manager.list();
+        manager.quit();
     }
 }

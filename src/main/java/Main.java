@@ -1,12 +1,12 @@
 import Commands.*;
 import Logic.*;
+
 import javax.swing.*;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         ArrayList<Subject> subjects = new ArrayList<>();
         Manager manager = new Manager(subjects);
         CommandParser parser = new CommandParser(manager);
@@ -14,12 +14,12 @@ public class Main {
         String input;
         SwingUtilities.invokeLater(PopupConsole::new);
 
-        while(true){
+        while (true) {
             input = scan.nextLine();
             Command command = parser.parse(input);
-            if(command != null){
+            if (command != null) {
                 command.execute();
-            } else{
+            } else {
                 System.out.println("invalid command");
             }
         }

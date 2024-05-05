@@ -2,11 +2,11 @@ package Commands;
 
 import Logic.Manager;
 
-public class GraphCommand implements Command{
-    private Manager manager;
-    private String subjectName;
+public class GraphCommand implements Command {
+    private final Manager manager;
+    private final String subjectName;
 
-    public GraphCommand(Manager manager, String subjectName){
+    public GraphCommand(Manager manager, String subjectName) {
         this.manager = manager;
         this.subjectName = subjectName;
     }
