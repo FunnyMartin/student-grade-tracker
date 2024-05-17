@@ -3,17 +3,7 @@ package Logic;
 import java.io.*;
 import java.util.ArrayList;
 
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
 
-import javax.swing.*;
-import java.awt.*;
 import java.util.Arrays;
 
 public class Manager {
@@ -79,14 +69,37 @@ public class Manager {
     }
 
     /**
-     * Lists all subjects in subjectArray with their grades
+     * Lists all subjects in subjectArray with their grades, checks honors and shows marks
      */
     public void list() {
-        String output = "";
-        for (Subject sub : subjectArray) {
-            output = output + sub.getName() + sub.getGradeArray().toString() + "\n";
+        if(subjectArray.size() > 0){
+            String output;
+            boolean hasHonors = true;
+            int numberOf = 0;
+            double grade = 0;
+            for (Subject sub : subjectArray) {
+                grade += sub.calculateMark();
+                numberOf++;
+                if (!sub.honors()) {
+                    hasHonors = false;
+                }
+            }
+            if (grade / numberOf > 1.5) {
+                hasHonors = false;
+            }
+            if (hasHonors) {
+                output = "You will get honors" + "\n";
+            } else {
+                output = "You won't get honors" + "\n";
+            }
+
+            for (Subject sub : subjectArray) {
+                output = output + sub.getName() + "(" + sub.calculateMark() + ")" + sub.getGradeArray().toString() + "\n";
+            }
+            System.out.println(output);
+        } else{
+            System.out.println("There are no subjects");
         }
-        System.out.println(output);
     }
 
     /**
@@ -150,70 +163,18 @@ public class Manager {
     }
 
     /**
-     * Creates a graph using a library JFreeChart of specific subject's grades
+     * Searches for a subject in array of subjects and calls createGraph()
      *
-     * @param subjectName is the name of the subject
+     * @param subjectName is name of the subject
      */
     public void graph(String subjectName) {
-        ArrayList<Grade> grades = null;
         for (Subject sub : subjectArray) {
             if (subjectName.equals(sub.getName())) {
-                grades = sub.getGradeArray();
+                sub.createGraph();
+                return;
             }
         }
-
-        if (grades != null && !grades.isEmpty()) {
-            XYSeries series = new XYSeries("Grades");
-
-            double sum = 0.0;
-            double totalWeight = 0.0;
-            double minGrade = Double.MAX_VALUE;
-            for (int i = 0; i < grades.size(); i++) {
-                Grade grade = grades.get(i);
-                sum += grade.getGrade() * grade.getWeight();
-                totalWeight += grade.getWeight();
-                series.add(i + 1, sum / totalWeight);
-                minGrade = Math.min(minGrade, grade.getGrade());
-            }
-
-            XYSeriesCollection dataset = new XYSeriesCollection();
-            dataset.addSeries(series);
-
-            JFreeChart chart = ChartFactory.createXYLineChart(
-                    "Grade Evolution",
-                    "Exam",
-                    "Grade Average",
-                    dataset,
-                    PlotOrientation.VERTICAL,
-                    true,
-                    true,
-                    false
-            );
-
-            XYPlot plot = chart.getXYPlot();
-            NumberAxis domain = (NumberAxis) plot.getDomainAxis();
-            domain.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-
-            NumberAxis range = (NumberAxis) plot.getRangeAxis();
-            range.setRange(minGrade, range.getUpperBound());
-
-            plot.setBackgroundPaint(Color.WHITE);
-            plot.setDomainGridlinePaint(Color.LIGHT_GRAY);
-            plot.setRangeGridlinePaint(Color.LIGHT_GRAY);
-            plot.setOutlineVisible(false);
-            plot.getRenderer().setSeriesPaint(0, new Color(0, 114, 187));
-
-            ChartPanel chartPanel = new ChartPanel(chart);
-            chartPanel.setPreferredSize(new Dimension(800, 600));
-            chartPanel.setMouseZoomable(false);
-
-            JFrame frame = new JFrame();
-            frame.getContentPane().add(chartPanel);
-            frame.pack();
-            frame.setVisible(true);
-        } else {
-            System.out.println("There is nothing to show in a graph");
-        }
+        System.out.println("No such subject found");
     }
 
     /**
@@ -308,7 +269,7 @@ public class Manager {
         File directory = new File("src/main/java/SaveFiles");
         File[] files = directory.listFiles();
         if (files != null) {
-            System.out.println("Listing " + files.length + " files");
+            System.out.println("Listing " + files.length + " file(s)");
             System.out.println(Arrays.toString(files));
         } else {
             System.out.println("No files found");

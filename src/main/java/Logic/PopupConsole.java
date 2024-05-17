@@ -28,6 +28,7 @@ public class PopupConsole {
 
         JFrame frame = new JFrame("Grade Tracker");
         frame.setSize(800, 600);
+        frame.setMinimumSize(new Dimension(250,250));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
 
