@@ -4,9 +4,11 @@ import Logic.*;
 
 public class CommandParser {
     private final Manager manager;
+    private final FileManager fileManager;
 
-    public CommandParser(Manager manager) {
+    public CommandParser(Manager manager, FileManager fileManager) {
         this.manager = manager;
+        this.fileManager = fileManager;
     }
 
     /**
@@ -47,41 +49,41 @@ public class CommandParser {
                     if (parts.length == 1) {
                         return new ListCommand(manager);
                     } else if (parts.length == 2 && parts[1].equalsIgnoreCase("files")) {
-                        return new ListFilesCommand(manager);
+                        return new ListFilesCommand(fileManager);
                     }
                     break;
 
                 case "save":
                     if (parts.length == 2) {
-                        return new SaveCommand(manager, parts[1]);
+                        return new SaveCommand(fileManager, parts[1]);
                     }
                     break;
                 case "load":
                     if (parts.length == 2) {
-                        return new LoadCommand(manager, parts[1]);
+                        return new LoadCommand(fileManager, parts[1]);
                     }
                     break;
                 case "create":
                     if (parts.length == 2) {
                         if (parts[1].matches("[a-zA-Z0-9]+")) {
-                            return new CreateFileCommand(manager, parts[1]);
+                            return new CreateFileCommand(fileManager, parts[1]);
                         }
                     }
                     break;
                 case "delete":
                     if (parts.length == 2) {
-                        return new DeleteFileCommand(manager, parts[1]);
+                        return new DeleteFileCommand(fileManager, parts[1]);
                     }
                     break;
                 case "quit":
                     return new QuitCommand(manager);
             }
-            return null; // Or throw an exception for unknown commands
-        } catch (NumberFormatException nfe) {
+            return null;
+        } catch (NumberFormatException ignored) {
 
         } catch (Exception e) {
-            System.out.println(e);
+            throw new RuntimeException(e);
         }
-        return null; // Or throw an exception for unknown commands
+        return null;
     }
 }

@@ -18,21 +18,19 @@ public class PopupConsole {
     public PopupConsole() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
-        // Custom colors
         Color backgroundColor = Color.BLACK;
-        Color textColor = new Color(0, 255, 0); // Green color
+        Color textColor = new Color(255, 255, 255, 255);
 
         JFrame frame = new JFrame("Grade Tracker");
         frame.setSize(800, 600);
-        frame.setMinimumSize(new Dimension(250,250));
+        frame.setMinimumSize(new Dimension(275, 275));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
 
-        // Set icon for the JFrame
         ImageIcon icon = new ImageIcon("src/main/java/Other/logo.png");
         frame.setIconImage(icon.getImage());
 
@@ -43,20 +41,23 @@ public class PopupConsole {
         consoleTextArea = new JTextArea();
         consoleTextArea.setEditable(false);
         consoleTextArea.setFont(new Font("Consolas", Font.PLAIN, 14));
-        consoleTextArea.setForeground(textColor); // Set text color
-        consoleTextArea.setBackground(backgroundColor); // Set background color
+        consoleTextArea.setForeground(textColor);
+        consoleTextArea.setBackground(backgroundColor);
+
         JScrollPane scrollPane = new JScrollPane(consoleTextArea);
         scrollPane.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 
         inputField = new JTextField();
         inputField.setCaretColor(Color.WHITE);
         inputField.setFont(new Font("Consolas", Font.PLAIN, 14));
-        inputField.setForeground(textColor); // Set text color
-        inputField.setBackground(backgroundColor); // Set background color
+        inputField.setForeground(textColor);
+        inputField.setBackground(backgroundColor);
+
         inputField.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(Color.LIGHT_GRAY),
                 BorderFactory.createEmptyBorder(5, 5, 5, 5)
         ));
+
         inputField.addActionListener(e -> {
             String input = inputField.getText();
             consoleTextArea.append("> " + input + "\n");
@@ -70,14 +71,14 @@ public class PopupConsole {
         frame.setContentPane(contentPane);
         frame.setVisible(true);
 
-        // Redirect System.out to consoleTextArea
         PrintStream printStream = new PrintStream(new TextAreaOutputStream(consoleTextArea));
         System.setOut(printStream);
         System.setErr(printStream);
 
         ArrayList<Subject> subjects = new ArrayList<>();
         Manager manager = new Manager(subjects);
-        parser = new CommandParser(manager);
+        FileManager fileManager = new FileManager(manager);
+        parser = new CommandParser(manager, fileManager);
     }
 
     /**

@@ -2,7 +2,6 @@ package Commands;
 
 import Logic.*;
 
-
 public class AddMarkCommand implements Command {
     private final Manager manager;
     private final String subjectName;

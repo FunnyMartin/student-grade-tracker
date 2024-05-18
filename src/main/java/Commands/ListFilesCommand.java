@@ -1,11 +1,11 @@
 package Commands;
 
-import Logic.Manager;
+import Logic.FileManager;
 
 public class ListFilesCommand implements Command {
-    private final Manager manager;
+    private final FileManager manager;
 
-    public ListFilesCommand(Manager manager) {
+    public ListFilesCommand(FileManager manager) {
         this.manager = manager;
     }
 

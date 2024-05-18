@@ -9,13 +9,13 @@ public class Main {
     public static void main(String[] args) {
         ArrayList<Subject> subjects = new ArrayList<>();
         Manager manager = new Manager(subjects);
-        CommandParser parser = new CommandParser(manager);
+        FileManager fileManager = new FileManager(manager);
+        CommandParser parser = new CommandParser(manager, fileManager);
         Scanner scan = new Scanner(System.in);
-        String input;
         SwingUtilities.invokeLater(PopupConsole::new);
 
         while (true) {
-            input = scan.nextLine();
+            String input = scan.nextLine();
             Command command = parser.parse(input);
             if (command != null) {
                 command.execute();

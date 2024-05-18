@@ -13,24 +13,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Subject {
-    private final String name;
-    private final ArrayList<Grade> gradeArray;
-
-    public Subject(String name, ArrayList<Grade> gradeArray) {
-        this.name = name;
-        this.gradeArray = gradeArray;
-    }
-
-    //region SET&GET
-    public String getName() {
-        return name;
-    }
-
-    public ArrayList<Grade> getGradeArray() {
-        return gradeArray;
-    }
-    //endregion
+public record Subject(String name, ArrayList<Grade> gradeArray) {
 
     @Override
     public String toString() {
@@ -48,8 +31,8 @@ public class Subject {
     public double calculateMark() {
         float value = 0, weight = 0;
         for (Grade grade : gradeArray) {
-            value += grade.getGrade() * grade.getWeight();
-            weight += grade.getWeight();
+            value += grade.grade() * grade.weight();
+            weight += grade.weight();
         }
         float mark = (value / weight);
         return Math.round(mark * 100.0) / 100.0;
@@ -59,22 +42,9 @@ public class Subject {
      * Creates a graph using a library JFreeChart of subject's grades
      */
     public void createGraph() {
-        if (gradeArray != null && !gradeArray.isEmpty()) {
-            XYSeries series = new XYSeries("Grades");
-
-            double sum = 0.0;
-            double totalWeight = 0.0;
-            double minGrade = Double.MAX_VALUE;
-            for (int i = 0; i < gradeArray.size(); i++) {
-                Grade grade = gradeArray.get(i);
-                sum += grade.getGrade() * grade.getWeight();
-                totalWeight += grade.getWeight();
-                series.add(i + 1, sum / totalWeight);
-                minGrade = Math.min(minGrade, grade.getGrade());
-            }
-
-            XYSeriesCollection dataset = new XYSeriesCollection();
-            dataset.addSeries(series);
+        int bestGrade = 1, worstGrade = 5;
+        if (gradeArray != null && gradeArray.size() > 1) {
+            XYSeriesCollection dataset = getXySeriesCollection();
 
             JFreeChart chart = ChartFactory.createXYLineChart(
                     "Grade Evolution",
@@ -92,7 +62,7 @@ public class Subject {
             domain.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 
             NumberAxis range = (NumberAxis) plot.getRangeAxis();
-            range.setRange(minGrade, range.getUpperBound());
+            range.setRange(bestGrade, worstGrade);
 
             plot.setBackgroundPaint(Color.WHITE);
             plot.setDomainGridlinePaint(Color.LIGHT_GRAY);
@@ -111,6 +81,30 @@ public class Subject {
         } else {
             System.out.println("There is nothing to show in a graph");
         }
+    }
+
+    /**
+     * Creates data for graph based on grades
+     *
+     * @return dataset for the graph
+     */
+    private XYSeriesCollection getXySeriesCollection() {
+        XYSeries series = new XYSeries("Grades");
+
+        double sum = 0.0;
+        double totalWeight = 0.0;
+        double minGrade = Double.MAX_VALUE;
+        for (int i = 0; i < gradeArray.size(); i++) {
+            Grade grade = gradeArray.get(i);
+            sum += grade.grade() * grade.weight();
+            totalWeight += grade.weight();
+            series.add(i + 1, sum / totalWeight);
+            minGrade = Math.min(minGrade, grade.grade());
+        }
+
+        XYSeriesCollection dataset = new XYSeriesCollection();
+        dataset.addSeries(series);
+        return dataset;
     }
 
     /**

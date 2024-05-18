@@ -1,23 +1,14 @@
 package Logic;
 
-public class Grade {
-    private final int grade;
-    private final int weight;
-
+public record Grade(int grade, int weight) {
     public Grade(int grade, int weight) {
-        this.grade = grade;
+        if (grade > 0 && grade < 6) {
+            this.grade = grade;
+        } else {
+            throw new IllegalArgumentException("Grade must be between 1 and 5");
+        }
         this.weight = weight;
     }
-
-    //region GET
-    public int getGrade() {
-        return grade;
-    }
-
-    public int getWeight() {
-        return weight;
-    }
-    //endregion
 
     @Override
     public String toString() {

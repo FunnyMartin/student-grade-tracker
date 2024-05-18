@@ -3,7 +3,6 @@ package Commands;
 import Logic.*;
 
 public class AddSubjectCommand implements Command {
-
     private final Manager manager;
     private final String subjectName;
 
@@ -16,5 +15,4 @@ public class AddSubjectCommand implements Command {
     public void execute() {
         manager.addSubject(subjectName);
     }
-
 }

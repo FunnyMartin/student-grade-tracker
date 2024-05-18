@@ -9,7 +9,6 @@ public class ListCommand implements Command {
         this.manager = manager;
     }
 
-
     @Override
     public void execute() {
         manager.list();
