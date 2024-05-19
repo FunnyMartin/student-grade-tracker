@@ -58,6 +58,7 @@ public class Manager {
                 "subject (name) mark add (grade) (weight)",
                 "subject (name) mark remove (index)",
                 "subject (name) graph",
+                "theme (color)",
                 "",
                 "list files",
                 "create (file name)",
@@ -185,6 +186,20 @@ public class Manager {
             }
         }
         System.out.println("No such subject found");
+    }
+
+    /**
+     * Changes the console theme based on user's input
+     *
+     * @param console is the popupConsole user uses
+     * @param color is the color user wants
+     */
+    public void changeTheme(PopupConsole console, String color){
+        if(color != null){
+            console.setTheme(color);
+        } else{
+            System.out.println("Color can't be null");
+        }
     }
 
     /**

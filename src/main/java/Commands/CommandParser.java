@@ -5,10 +5,12 @@ import Logic.*;
 public class CommandParser {
     private final Manager manager;
     private final FileManager fileManager;
+    private final PopupConsole popupConsole;
 
-    public CommandParser(Manager manager, FileManager fileManager) {
+    public CommandParser(Manager manager, FileManager fileManager, PopupConsole popupConsole) {
         this.manager = manager;
         this.fileManager = fileManager;
+        this.popupConsole = popupConsole;
     }
 
     /**
@@ -30,13 +32,13 @@ public class CommandParser {
                     if (parts.length == 3 && parts[1].equalsIgnoreCase("add")) {
                         return new AddSubjectCommand(manager, parts[2]);
                     } else if (parts.length == 3 && parts[1].equalsIgnoreCase("remove")) {
-                        return new RemoveSubjectCommand(manager, parts[2]);
+                        return new RemoveSubjectCommand(manager, parts[2].toLowerCase());
                     } else if (parts.length == 6 && parts[2].equalsIgnoreCase("mark") && parts[3].equalsIgnoreCase("add")) {
-                        return new AddMarkCommand(manager, parts[1], Integer.parseInt(parts[4]), Integer.parseInt(parts[5]));
+                        return new AddMarkCommand(manager, parts[1].toLowerCase(), Integer.parseInt(parts[4]), Integer.parseInt(parts[5]));
                     } else if (parts.length == 5 && parts[2].equalsIgnoreCase("mark") && parts[3].equalsIgnoreCase("remove")) {
-                        return new RemoveMarkCommand(manager, parts[1], Integer.parseInt(parts[4]));
+                        return new RemoveMarkCommand(manager, parts[1].toLowerCase(), Integer.parseInt(parts[4]));
                     } else if (parts.length == 3 && parts[2].equalsIgnoreCase("graph")) {
-                        return new GraphCommand(manager, parts[1]);
+                        return new GraphCommand(manager, parts[1].toLowerCase());
                     }
                     break;
 
@@ -73,6 +75,11 @@ public class CommandParser {
                 case "delete":
                     if (parts.length == 2) {
                         return new DeleteFileCommand(fileManager, parts[1]);
+                    }
+                    break;
+                case "theme":
+                    if(parts.length == 2){
+                        return new ThemeCommand(manager, popupConsole, parts[1]);
                     }
                     break;
                 case "quit":

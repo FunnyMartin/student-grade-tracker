@@ -64,7 +64,7 @@ public class FileManager {
                 System.out.println("No such file exists or there is nothing to load");
             }
         } catch (IllegalArgumentException e) {
-            System.out.println("File contains invalid grade value");
+            System.out.println("File contains invalid grade value(s)");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

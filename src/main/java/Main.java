@@ -10,9 +10,10 @@ public class Main {
         ArrayList<Subject> subjects = new ArrayList<>();
         Manager manager = new Manager(subjects);
         FileManager fileManager = new FileManager(manager);
-        CommandParser parser = new CommandParser(manager, fileManager);
         Scanner scan = new Scanner(System.in);
-        SwingUtilities.invokeLater(PopupConsole::new);
+        PopupConsole popupConsole = new PopupConsole();
+        SwingUtilities.invokeLater(popupConsole);
+        CommandParser parser = new CommandParser(manager, fileManager, popupConsole);
 
         while (true) {
             String input = scan.nextLine();

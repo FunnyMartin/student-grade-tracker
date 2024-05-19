@@ -7,10 +7,53 @@ import java.awt.*;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
-public class PopupConsole {
+public class PopupConsole implements Runnable {
     private final JTextArea consoleTextArea;
     private final JTextField inputField;
     private final CommandParser parser;
+
+    /**
+     * Sets the popup console theme based on users input
+     *
+     * @param theme is the color
+     */
+    public void setTheme(String theme) {
+        theme = theme.toLowerCase();
+        switch (theme) {
+            case "black":
+                consoleTextArea.setBackground(Color.BLACK);
+                inputField.setBackground(Color.BLACK);
+                consoleTextArea.setForeground(Color.WHITE);
+                inputField.setForeground(Color.WHITE);
+                inputField.setCaretColor(Color.WHITE);
+                break;
+            case "white":
+                consoleTextArea.setBackground(Color.WHITE);
+                inputField.setBackground(Color.WHITE);
+                consoleTextArea.setForeground(Color.BLACK);
+                inputField.setForeground(Color.BLACK);
+                inputField.setCaretColor(Color.BLACK);
+                break;
+            case "red":
+                consoleTextArea.setForeground(Color.RED);
+                inputField.setForeground(Color.RED);
+                inputField.setCaretColor(Color.RED);
+                break;
+            case "green":
+                consoleTextArea.setForeground(Color.GREEN);
+                inputField.setForeground(Color.GREEN);
+                inputField.setCaretColor(Color.GREEN);
+                break;
+            case "blue":
+                consoleTextArea.setForeground(Color.BLUE);
+                inputField.setForeground(Color.BLUE);
+                inputField.setCaretColor(Color.BLUE);
+                break;
+            default:
+                System.out.println("Please choose from: black, white, red, green, blue");
+                break;
+        }
+    }
 
     /**
      * Creates the popup window, sets icon and redirects text output stream to the window
@@ -78,7 +121,7 @@ public class PopupConsole {
         ArrayList<Subject> subjects = new ArrayList<>();
         Manager manager = new Manager(subjects);
         FileManager fileManager = new FileManager(manager);
-        parser = new CommandParser(manager, fileManager);
+        parser = new CommandParser(manager, fileManager, this);
     }
 
     /**
@@ -93,5 +136,10 @@ public class PopupConsole {
         } else {
             consoleTextArea.append("Invalid command\n");
         }
+    }
+
+    @Override
+    public void run() {
+
     }
 }
