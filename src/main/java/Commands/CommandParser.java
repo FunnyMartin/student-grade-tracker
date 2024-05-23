@@ -82,6 +82,11 @@ public class CommandParser {
                         return new ThemeCommand(manager, popupConsole, parts[1]);
                     }
                     break;
+                case "calculate":
+                    if (parts.length == 3 && Double.parseDouble(parts[2]) <= 5 && Double.parseDouble(parts[2]) >= 1){
+                        return new CalculateCommand(manager, parts[1], Double.parseDouble(parts[2]));
+                    }
+                    break;
                 case "quit":
                     return new QuitCommand(manager);
             }

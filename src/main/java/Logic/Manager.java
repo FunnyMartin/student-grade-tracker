@@ -58,6 +58,7 @@ public class Manager {
                 "subject (name) mark add (grade) (weight)",
                 "subject (name) mark remove (index)",
                 "subject (name) graph",
+                "calculate (subject) (desired average)",
                 "theme (color)",
                 "",
                 "list files",
@@ -199,6 +200,15 @@ public class Manager {
             console.setTheme(color);
         } else{
             System.out.println("Color can't be null");
+        }
+    }
+
+    public void calculate(String subjectName, double desiredAverage){
+        for (Subject sub : subjectArray) {
+            if (subjectName.equals(sub.name())) {
+                System.out.println(sub.calculateRequiredGrade(desiredAverage));
+                return;
+            }
         }
     }
 

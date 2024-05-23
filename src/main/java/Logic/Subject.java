@@ -124,4 +124,35 @@ public record Subject(String name, ArrayList<Grade> gradeArray) {
         }
         return !(mark > 2);
     }
+
+    /**
+     * Takes in desired average for a specific subject and returns a needed grade to get closer to the average
+     *
+     * @param desiredAverage is users input
+     * @return needed grade
+     */
+    public String calculateRequiredGrade(double desiredAverage) {
+        int totalWeight = 0;
+        int weightedSum = 0;
+
+        for (Grade grade : gradeArray) {
+            weightedSum += grade.grade() * grade.weight();
+            totalWeight += grade.weight();
+        }
+
+        for (int newGrade = 1; newGrade <= 5; newGrade++) {
+            for (int newWeight = 1; newWeight <= 1000; newWeight++) {
+                int newWeightedSum = weightedSum + newGrade * newWeight;
+                int newTotalWeight = totalWeight + newWeight;
+
+                double newAverage = (double) newWeightedSum / newTotalWeight;
+
+                if (Math.abs(newAverage - desiredAverage) < 1e-1) {
+                    return "Grade: " + newGrade + " weight: " + newWeight;
+                }
+            }
+        }
+
+        return null;
+    }
 }
