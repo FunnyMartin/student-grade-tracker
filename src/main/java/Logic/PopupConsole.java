@@ -13,49 +13,6 @@ public class PopupConsole implements Runnable {
     private final CommandParser parser;
 
     /**
-     * Sets the popup console theme based on users input
-     *
-     * @param theme is the color
-     */
-    public void setTheme(String theme) {
-        theme = theme.toLowerCase();
-        switch (theme) {
-            case "black":
-                consoleTextArea.setBackground(Color.BLACK);
-                inputField.setBackground(Color.BLACK);
-                consoleTextArea.setForeground(Color.WHITE);
-                inputField.setForeground(Color.WHITE);
-                inputField.setCaretColor(Color.WHITE);
-                break;
-            case "white":
-                consoleTextArea.setBackground(Color.WHITE);
-                inputField.setBackground(Color.WHITE);
-                consoleTextArea.setForeground(Color.BLACK);
-                inputField.setForeground(Color.BLACK);
-                inputField.setCaretColor(Color.BLACK);
-                break;
-            case "red":
-                consoleTextArea.setForeground(Color.RED);
-                inputField.setForeground(Color.RED);
-                inputField.setCaretColor(Color.RED);
-                break;
-            case "green":
-                consoleTextArea.setForeground(Color.GREEN);
-                inputField.setForeground(Color.GREEN);
-                inputField.setCaretColor(Color.GREEN);
-                break;
-            case "blue":
-                consoleTextArea.setForeground(Color.BLUE);
-                inputField.setForeground(Color.BLUE);
-                inputField.setCaretColor(Color.BLUE);
-                break;
-            default:
-                System.out.println("Please choose from: black, white, red, green, blue");
-                break;
-        }
-    }
-
-    /**
      * Creates the popup window, sets icon and redirects text output stream to the window
      */
     public PopupConsole() {
@@ -138,8 +95,65 @@ public class PopupConsole implements Runnable {
         }
     }
 
+    /**
+     * Sets the popup console theme based on users input
+     *
+     * @param theme is the color
+     */
+    public void setTheme(String theme) {
+        theme = theme.toLowerCase();
+        Color color = null;
+        switch (theme) {
+            case "black":
+                consoleTextArea.setBackground(Color.BLACK);
+                inputField.setBackground(Color.BLACK);
+                color = Color.WHITE;
+                break;
+            case "white":
+                consoleTextArea.setBackground(Color.WHITE);
+                inputField.setBackground(Color.WHITE);
+                color = Color.BLACK;
+                break;
+            case "red":
+                color = Color.RED;
+                break;
+            case "green":
+                color = Color.GREEN;
+                break;
+            case "blue":
+                color = Color.BLUE;
+                break;
+            case "gray":
+                color = Color.GRAY;
+                break;
+            case "yellow":
+                color = Color.YELLOW;
+                break;
+            case "orange":
+                color = Color.ORANGE;
+                break;
+            case "magenta":
+                color = Color.MAGENTA;
+                break;
+            case "cyan":
+                color = Color.CYAN;
+                break;
+            case "pink":
+                color = Color.PINK;
+                break;
+            default:
+                System.out.println("Invalid theme");
+                break;
+        }
+
+        if (color != null) {
+            consoleTextArea.setForeground(color);
+            inputField.setForeground(color);
+            inputField.setCaretColor(color);
+        }
+    }
+
     @Override
     public void run() {
-
     }
 }
