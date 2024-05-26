@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class PopupConsole implements Runnable {
     private final JTextArea consoleTextArea;
@@ -103,6 +104,7 @@ public class PopupConsole implements Runnable {
     public void setTheme(String theme) {
         theme = theme.toLowerCase();
         Color color = null;
+        String[] themesArray = {"black", "white", "red", "green", "blue", "gray", "yellow", "orange", "magenta", "cyan", "pink"};
         switch (theme) {
             case "black":
                 consoleTextArea.setBackground(Color.BLACK);
@@ -143,6 +145,7 @@ public class PopupConsole implements Runnable {
                 break;
             default:
                 System.out.println("Invalid theme");
+                System.out.println("Please choose from: " + Arrays.toString(themesArray));
                 break;
         }
 

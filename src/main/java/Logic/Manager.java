@@ -17,13 +17,6 @@ public class Manager {
         this.subjectArray = subjectArray;
     }
 
-    @Override
-    public String toString() {
-        return "Manager{" +
-                "subjectArray=" + subjectArray +
-                '}';
-    }
-
     /**
      * Adds subject into subjectArray if it isn't already present
      *
@@ -109,7 +102,7 @@ public class Manager {
     }
 
     /**
-     * Removes subject if it exists based on users input
+     * Removes subject (if it exists) based on users input
      *
      * @param subjectName is users input
      */
@@ -119,9 +112,10 @@ public class Manager {
             if (subjectName.equals(sub.name())) {
                 subjectArray.remove(sub);
                 System.out.println(sub.name() + " was removed");
-                break;
+                return;
             }
         }
+        System.out.println(subjectName + " was not found");
     }
 
     /**
@@ -203,6 +197,12 @@ public class Manager {
         }
     }
 
+    /**
+     * Takes in desired average from user, compares it with weighted average and finds the grade needed to achieve that average
+     *
+     * @param subjectName is the name of the subject
+     * @param desiredAverage is the average that user wants to achieve
+     */
     public void calculate(String subjectName, double desiredAverage){
         for (Subject sub : subjectArray) {
             if (subjectName.equals(sub.name())) {

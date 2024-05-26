@@ -141,18 +141,18 @@ public record Subject(String name, ArrayList<Grade> gradeArray) {
         }
 
         for (int newGrade = 1; newGrade <= 5; newGrade++) {
-            for (int newWeight = 1; newWeight <= 1000; newWeight++) {
+            for (int newWeight = 1; newWeight <= 10000; newWeight++) {
                 int newWeightedSum = weightedSum + newGrade * newWeight;
                 int newTotalWeight = totalWeight + newWeight;
 
                 double newAverage = (double) newWeightedSum / newTotalWeight;
 
-                if (Math.abs(newAverage - desiredAverage) < 1e-1) {
+                if (Math.abs(newAverage - desiredAverage) < 1e-4) {
                     return "Grade: " + newGrade + " weight: " + newWeight;
                 }
             }
         }
 
-        return null;
+        return "Only 1 decimal point can be calculated";
     }
 }
