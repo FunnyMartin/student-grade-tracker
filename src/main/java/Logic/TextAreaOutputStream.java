@@ -11,6 +11,7 @@ public class TextAreaOutputStream extends OutputStream {
         this.textArea = textArea;
     }
 
+    //THIS WHOLE CLASS WAS CREATED USING CHATGPT
     /**
      * Appends param b and then adjusts caret position
      *

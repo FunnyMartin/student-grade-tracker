@@ -38,6 +38,7 @@ public record Subject(String name, ArrayList<Grade> gradeArray) {
         return Math.round(mark * 100.0) / 100.0;
     }
 
+    //THIS METHOD WAS CREATED USING CHATGPT
     /**
      * Creates a graph using a library JFreeChart of subject's grades
      */
@@ -83,6 +84,7 @@ public record Subject(String name, ArrayList<Grade> gradeArray) {
         }
     }
 
+    //THIS METHOD WAS CREATED USING CHATGPT
     /**
      * Creates data for graph based on grades
      *

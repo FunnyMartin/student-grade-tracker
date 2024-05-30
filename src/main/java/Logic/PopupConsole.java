@@ -13,6 +13,7 @@ public class PopupConsole implements Runnable {
     private final JTextField inputField;
     private final CommandParser parser;
 
+    //THIS METHOD WAS CREATED USING CHATGPT
     /**
      * Creates the popup window, sets icon and redirects text output stream to the window
      */
