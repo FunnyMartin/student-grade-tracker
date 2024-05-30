@@ -153,6 +153,6 @@ public record Subject(String name, ArrayList<Grade> gradeArray) {
             }
         }
 
-        return "Only 1 decimal point can be calculated";
+        return "Only 1 decimal point can be calculated OR the weight of grade would be above 10000";
     }
 }
