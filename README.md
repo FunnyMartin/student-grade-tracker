@@ -28,7 +28,7 @@ For detailed documentation, please refer to the [**DOKUMENTACE.pdf**](https://gi
 
 ## 📸 Preview
 
-> ![Console Screenshot](./screenshot.png)
+> ![Console Screenshot](./screenshotConsole.png)
 
 ---
 
